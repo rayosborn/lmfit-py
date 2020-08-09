@@ -9,6 +9,7 @@
 from datetime import date
 import os
 import sys
+import warnings
 
 import lmfit
 
@@ -34,8 +35,9 @@ autoclass_content = 'both'
 
 # shpinx.ext.intersphinx settings
 intersphinx_mapping = {'py': ('https://docs.python.org/3', None),
-                       'numpy': ('https://docs.scipy.org/doc/numpy/', None),
+                       'numpy': ('https://numpy.org/doc/stable', None),
                        'scipy': ('https://docs.scipy.org/doc/scipy/reference/', None),
+                       'matplotlib': ('https://matplotlib.org', None),
                        }
 
 # shpinx.ext.extlinks settings
@@ -166,4 +168,13 @@ sphinx_gallery_conf = {
     'gallery_dirs': 'examples',
     'filename_pattern': '/documentation|/example_',
     'ignore_pattern': '/doc_',
+    'ignore_repr_types': r'matplotlib',
 }
+
+# remove warnings about matplotlib and Agg backend from gallery examples
+warnings.filterwarnings("ignore", category=UserWarning,
+                        message='Matplotlib is currently using agg, which is a'
+                                ' non-GUI backend, so cannot show the figure.')
+
+
+

@@ -72,6 +72,8 @@ def test_x_float_value(lineshape):
 
 
 rising_form = ['erf', 'logistic', 'atan', 'arctan', 'linear', 'unknown']
+
+
 @pytest.mark.parametrize("form", rising_form)
 @pytest.mark.parametrize("lineshape", ['step', 'rectangle'])
 def test_form_argument_step_rectangle(form, lineshape):
@@ -99,6 +101,8 @@ def test_form_argument_step_rectangle(form, lineshape):
 
 
 thermal_form = ['bose', 'maxwell', 'fermi', 'Bose-Einstein', 'unknown']
+
+
 @pytest.mark.parametrize("form", thermal_form)
 def test_form_argument_thermal_distribution(form):
     """Test 'form' argument for thermal_distribution function."""
@@ -122,3 +126,14 @@ def test_form_argument_thermal_distribution(form):
     else:
         fnc_output = func(*fnc_args)
         assert len(fnc_output) == len(xvals)
+
+
+def test_donaich_emits_futurewarning():
+    """Assert that using the wrong spelling emits a FutureWarning."""
+    xvals = np.linspace(0, 10, 100)
+
+    msg = ('Please correct the name of your lineshape function: donaich --> '
+           'doniach. The incorrect spelling will be removed in a later '
+           'release.')
+    with pytest.warns(FutureWarning, match=msg):
+        lmfit.lineshapes.donaich(xvals)
